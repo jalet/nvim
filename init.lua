@@ -681,6 +681,10 @@ require('lazy').setup({
       },
     },
   },
+  {
+    'junegunn/vim-easy-align',
+    event = 'InsertEnter',
+  },
 
   -- Custom imports
   { import = 'kickstart.plugins' },
