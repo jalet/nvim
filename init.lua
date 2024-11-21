@@ -17,6 +17,7 @@ vim.g.have_nerd_font = true
 
 -- Make line numbers default
 vim.opt.number = true
+
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
 vim.opt.relativenumber = true
@@ -71,6 +72,13 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 30
+
+-- Disable swap
+vim.opt.swapfile = false
+
+-- Set spellfile
+vim.opt.spelllang = 'en_us'
+vim.opt.spell = true
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -348,6 +356,7 @@ require('lazy').setup({
 
         -- Markdown
         markdownlint = {},
+
         -- Terraform
         tflint = {},
         terraformls = {},
@@ -685,7 +694,24 @@ require('lazy').setup({
     'junegunn/vim-easy-align',
     event = 'InsertEnter',
   },
+  -- Oil
+  {
+    'stevearc/oil.nvim',
+    config = function()
+      vim.keymap.set('n', '<leader>o', '<CMD>Oil<CR>', { desc = 'Open Oil file explorer' })
 
+      require('oil').setup {
+        -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
+        -- Set to false if you want some other plugin (e.g. netrw) to open when you edit directories.
+        default_file_explorer = true,
+        -- Id is automatically added at the beginning, and name at the end
+        -- See :help oil-columns
+        columns = {
+          'icon',
+        },
+      }
+    end,
+  },
   -- Custom imports
   { import = 'kickstart.plugins' },
 }, {
