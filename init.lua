@@ -162,10 +162,23 @@ require('lazy').setup({
     },
   },
 
+  { -- Gruvbox Color Scheme
+    'ellisonleao/gruvbox.nvim',
+    priority = 1000,
+    config = function()
+      require('gruvbox').setup {
+        transparent_mode = true,
+      }
+      vim.o.background = 'dark'
+      vim.cmd.colorscheme 'gruvbox'
+    end,
+  },
+
   { -- You can easily change to a different colorscheme.
     'catppuccin/nvim',
     name = 'catppuccin',
     priority = 1000, -- Make sure to load this before all the other start plugins.
+    enabled = false,
     config = function()
       require('catppuccin').setup {
         transparent_background = true,
