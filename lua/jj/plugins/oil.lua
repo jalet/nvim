@@ -1,3 +1,21 @@
+local hidden_files = {
+  '.DS_Store',
+  '.gen',
+  '.git',
+  '.idea',
+  '.vscode',
+  'node_modules',
+}
+
+local function contains(xs, x)
+  for _, v in ipairs(xs) do
+    if v == x then
+      return true
+    end
+  end
+  return false
+end
+
 return {
   -- Oil
   {
@@ -12,7 +30,19 @@ return {
         -- Id is automatically added at the beginning, and name at the end
         -- See :help oil-columns
         columns = {
+          'permissions',
           'icon',
+        },
+
+        view_options = {
+          is_hidden_file = function(name, bufnr)
+            -- Hide files in the hidden_files table
+            if contains(hidden_files, name) then
+              return true
+            end
+
+            return false
+          end,
         },
       }
     end,

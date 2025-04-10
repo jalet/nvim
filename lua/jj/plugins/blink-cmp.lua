@@ -26,7 +26,23 @@ return {
       use_nvim_cmp_as_default = true,
       -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
       -- Adjusts spacing to ensure icons are aligned
-      nerd_font_variant = 'mono'
+      nerd_font_variant = 'mono',
+    },
+
+    completion = {
+      menu = {
+        border = 'rounded',
+        winhighlight = 'Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None',
+      },
+      documentation = {
+        window = {
+          border = 'rounded',
+        },
+      },
+    },
+
+    signature = {
+      enabled = true,
     },
 
     -- Default list of enabled providers defined so that you can extend it
@@ -35,5 +51,5 @@ return {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
     },
   },
-  opts_extend = { "sources.default" }
+  opts_extend = { 'sources.default' },
 }

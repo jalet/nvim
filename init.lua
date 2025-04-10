@@ -31,4 +31,4 @@ vim.opt.rtp:prepend(lazypath)
 --  To update plugins you can run
 --    :Lazy update
 --
-require('lazy').setup('jj.plugins')
+require('lazy').setup 'jj.plugins'

@@ -74,7 +74,7 @@ return {
               },
               schemas = {
                 ['https://json.schemastore.org/github-workflow'] = '.github/workflows/*.{yml,yaml}',
-                ['https://json.schemastore.org/github-action'] = '.github/action.{yml,yaml}',
+                ['https://json.schemastore.org/github-action'] = '.github/action/*.{yml,yaml}',
                 ['https://diy8iv58sj6ba.cloudfront.net/latest/gzip/CloudFormationResourceSpecification.json'] = 'cloudformation/**/*.{yml,yaml}',
               },
             },
@@ -161,6 +161,7 @@ return {
       --
       --  You can press `g?` for help in this menu.
       local lspconfig = require 'lspconfig'
+      local ensure_installed = {}
       require('mason').setup()
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
