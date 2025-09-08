@@ -80,7 +80,6 @@ return {
             },
           },
         },
-        yamllint = {},
       },
     },
     config = function(_, opts)

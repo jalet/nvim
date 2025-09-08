@@ -62,6 +62,8 @@ return {
       formatters_by_ft = {
         lua = { 'stylua' },
         go = { 'gci', 'gofumpt' }, -- INFO: Fever Energy
+        javascript = { 'prettierd' },
+        typescript = { 'prettierd' },
       },
     },
   },

@@ -17,6 +17,14 @@ return {
         go = { 'fever_go' },
       }
 
+      lint.linters.yamllint.args = {
+        '-c',
+        os.getenv 'HOME' .. '/.config/yamllint/config',
+        '--format',
+        'parsable',
+        '-',
+      }
+
       lint.linters.fever_go = {
         cmd = fever_root .. '/.sage/bin/golangci-lint',
         stdin = false,
