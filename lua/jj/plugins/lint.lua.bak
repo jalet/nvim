@@ -11,10 +11,8 @@ return {
       lint.linters_by_ft = {
         dockerfile = { 'hadolint' },
         json = { 'jsonlint' },
-        markdown = { 'markdownlint' },
         terraform = { 'tflint' },
         yaml = { 'yamllint' },
-        go = { 'fever_go' },
       }
 
       lint.linters.yamllint.args = {
@@ -23,24 +21,6 @@ return {
         '--format',
         'parsable',
         '-',
-      }
-
-      lint.linters.fever_go = {
-        cmd = fever_root .. '/.sage/bin/golangci-lint',
-        stdin = false,
-        args = {
-          'run',
-          '--out-format',
-          'json',
-          '--config',
-          fever_root .. '/.golangci.yml',
-          '--concurrency',
-          '3',
-          '$FILENAME',
-        },
-        stream = 'stdout',
-        ignore_exitcode = true,
-        parser = require('lint.parser').from_errorformat('', {}),
       }
 
       -- Create autocommand which carries out the actual linting

@@ -1,13 +1,28 @@
 return {
-  { -- Gruvbox Color Scheme
+  {
+    'folke/tokyonight.nvim',
+    enable = false,
+    lazy = false,
+    priority = 1000,
+    opts = {
+      transparent = true,
+      styles = {
+        sidebars = 'transparent',
+      },
+    },
+    config = function()
+      vim.cmd.colorscheme 'tokyonight-storm'
+    end,
+  },
+  {
     'ellisonleao/gruvbox.nvim',
+    lazy = false,
     priority = 1000,
     config = function()
-      require('gruvbox').setup {
-        transparent_mode = true,
-      }
-      vim.o.background = 'dark'
       vim.cmd.colorscheme 'gruvbox'
     end,
+    opts = {
+      transparent_mode = true,
+    },
   },
 }

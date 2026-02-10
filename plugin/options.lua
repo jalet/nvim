@@ -39,7 +39,7 @@ vim.opt.smartcase = true
 
 -- Keep signcolumn on by default
 vim.opt.signcolumn = 'yes'
-vim.opt.colorcolumn = '80'
+vim.opt.colorcolumn = '80,120'
 
 -- Decrease update time
 vim.opt.updatetime = 250
@@ -76,6 +76,15 @@ vim.g.spellfile_URL = 'https://ftp.nluug.nl/vim/runtime/spell'
 vim.opt.spelllang = { 'en_us', 'sv' }
 vim.opt.spell = true
 
+-- Set folding
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.opt.foldcolumn = '0'
+vim.opt.foldtext = ''
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = -1
+vim.opt.foldnestmax = 4
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -84,8 +93,14 @@ vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
+vim.keymap.set('n', '[d', function()
+  vim.diagnostic.jump { count = 1, float = true }
+end, { desc = 'Go to previous [D]iagnostic message' })
+
+vim.keymap.set('n', ']d', function()
+  vim.diagnostic.jump { count = -1, float = true }
+end, { desc = 'Go to next [D]iagnostic message' })
+
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
