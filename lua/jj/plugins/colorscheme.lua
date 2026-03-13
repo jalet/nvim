@@ -1,20 +1,5 @@
 return {
   {
-    'folke/tokyonight.nvim',
-    enabled = false,
-    lazy = false,
-    priority = 1000,
-    opts = {
-      transparent = true,
-      styles = {
-        sidebars = 'transparent',
-      },
-    },
-    config = function()
-      vim.cmd.colorscheme 'tokyonight-storm'
-    end,
-  },
-  {
     'ellisonleao/gruvbox.nvim',
     lazy = false,
     priority = 1000,
