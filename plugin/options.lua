@@ -6,9 +6,6 @@ vim.g.netrw_banner = 0 -- use `I` to toggle
 vim.g.netrw_list_hide = '\\(^\\|\\s\\s\\)\\zs\\.\\S\\+' -- hide dotfiles
 vim.g.netrw_localcopydircmd = 'cp -r' -- copy directories recursively
 
--- Set to true if you have a Nerd Font installed
-vim.g.have_nerd_font = true
-
 -- Make line numbers default
 vim.opt.number = true
 
@@ -43,6 +40,9 @@ vim.opt.colorcolumn = '80,120'
 
 -- Decrease update time
 vim.opt.updatetime = 250
+
+-- Default border for floating windows (hover, signature help, etc.)
+vim.opt.winborder = 'rounded'
 
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner

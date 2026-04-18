@@ -29,25 +29,22 @@ vim.api.nvim_create_autocmd('PackChanged', {
 local specs = {
   -- Core libraries (loaded first as transitive deps).
   { src = gh 'nvim-lua/plenary.nvim' },
-  { src = gh 'MunifTanjim/nui.nvim' },
-  { src = gh 'folke/snacks.nvim' },
 
-  -- UI loaded early so later errors render in the intended style.
+  -- Colorscheme loaded early so later errors render in the intended style.
   { src = gh 'ellisonleao/gruvbox.nvim' },
-  { src = gh 'folke/noice.nvim' },
 
   -- Mason before anything that registers with it.
   { src = gh 'williamboman/mason.nvim' },
   { src = gh 'WhoIsSethDaniel/mason-tool-installer.nvim' },
-  { src = gh 'jay-babu/mason-nvim-dap.nvim' },
 
   -- Editor UX.
+  { src = gh 'folke/which-key.nvim' },
+  { src = gh 'folke/flash.nvim' },
   { src = gh 'tpope/vim-sleuth' },
   { src = gh 'tpope/vim-fugitive' },
   { src = gh 'lewis6991/gitsigns.nvim' },
   { src = gh 'stevearc/oil.nvim' },
   { src = gh 'echasnovski/mini.nvim' },
-  { src = gh 'lukas-reineke/indent-blankline.nvim' },
   { src = gh 'laytan/cloak.nvim' },
   { src = gh 'folke/todo-comments.nvim' },
 
@@ -95,12 +92,12 @@ vim.pack.add(specs, { confirm = false, load = true })
 -- mason-tool-installer enqueues tools, and blink.cmp's setup enables LSP
 -- servers so it runs after mason is ready.
 require 'jj.plugins.colorscheme'
-require 'jj.plugins.noice'
+require 'jj.plugins.which-key'
+require 'jj.plugins.flash'
 require 'jj.plugins.mason'
 require 'jj.plugins.gitsigns'
 require 'jj.plugins.oil'
 require 'jj.plugins.mini'
-require 'jj.plugins.indent_line'
 require 'jj.plugins.cloak'
 require 'jj.plugins.comments'
 require 'jj.plugins.treesitter'
