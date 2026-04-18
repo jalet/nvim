@@ -15,18 +15,19 @@ When editing Lua files, match the existing style: `require('foo').setup { ... }`
 
 ## Architecture
 
-**Entry point:** `init.lua` bootstraps lazy.nvim and loads all plugin specs from `lua/jj/plugins/`.
+**Entry point:** `init.lua` sets leader keys and the yank-highlight autocmd, then `require 'jj.plugins'`.
 
-**Plugin loading:** lazy.nvim auto-discovers specs via `require('lazy').setup 'jj.plugins'` -- every `.lua` file in `lua/jj/plugins/` is a lazy.nvim plugin spec (returns a table or list of tables).
+**Plugin loading:** Neovim 0.12's native `vim.pack`. `lua/jj/plugins/init.lua` declares the full plugin list in one `vim.pack.add {...}` call (dependency-ordered), registers a `PackChanged` autocmd for build hooks (`:TSUpdate` for treesitter, `make` for telescope-fzf-native), and then `require`s each per-plugin setup module.
 
 **Key structural decisions:**
-- `plugin/options.lua` and `plugin/terminal.lua` are auto-sourced by Neovim's runtime (not lazy.nvim) -- options, keymaps, and terminal autocmds live here
+- `plugin/options.lua` and `plugin/terminal.lua` are auto-sourced by Neovim's runtime -- options, keymaps, and terminal autocmds live here. Note these run *after* `init.lua`, so values needed during plugin setup (`vim.g.have_nerd_font`) are also set at the top of `init.lua`.
+- Each file in `lua/jj/plugins/<name>.lua` is a plain configuration module: it runs `require('plug').setup {...}` (or equivalent) at top level and returns nothing. The plugin list lives in `lua/jj/plugins/init.lua`, not the individual files.
 - LSP servers use Neovim 0.11+ native config: each server has a file in `lsp/<server_name>.lua` returning a config table (settings, filetypes, etc.) or `{}`
-- `lua/jj/plugins/lsp.lua` calls `vim.lsp.config('*', ...)` for global capabilities and `vim.lsp.enable({...})` to activate all servers
+- `lua/jj/plugins/blink-cmp.lua` calls `vim.lsp.config('*', ...)` for global capabilities and `vim.lsp.enable({...})` to activate all servers
 - Mason + mason-tool-installer auto-install LSP servers; formatters/linters/debug adapters are installed manually via `:Mason` (see `TODO.md`)
 - `folke/lazydev.nvim` provides Neovim API completions for Lua files (replaces neodev.nvim)
-- Completion uses **blink.cmp** (active); nvim-cmp exists but is `enabled = false`
-- Avante (AI plugin) is fully commented out; Claude Code plugin is active
+- Completion uses **blink.cmp**
+- `vim.pack` has no lazy-loading DSL; most plugins load eagerly at startup. Use autocmds for filetype/event deferral when needed.
 
 **Formatting pipeline (conform.nvim):**
 - Lua: `stylua`
@@ -36,14 +37,16 @@ When editing Lua files, match the existing style: `require('foo').setup { ... }`
 
 ## Adding a New Plugin
 
-Create `lua/jj/plugins/<name>.lua` returning a lazy.nvim spec table. It will be auto-loaded.
+1. Add an entry to the `vim.pack.add {...}` list in `lua/jj/plugins/init.lua` (ordered after its dependencies).
+2. If the plugin needs configuration, create `lua/jj/plugins/<name>.lua` that runs `require('<plug>').setup {...}` at top level, and add a `require 'jj.plugins.<name>'` line to the require block in `lua/jj/plugins/init.lua`.
+3. If the plugin needs a build step, add a branch to the `PackChanged` autocmd in `lua/jj/plugins/init.lua`.
 
 ## Adding a New LSP Server
 
 1. Create `lsp/<server_name>.lua` returning a config table (or `return {}` for defaults)
-2. Add the server name to the `vim.lsp.enable` list in `lua/jj/plugins/lsp.lua`
-3. Add the Mason package name to `ensure_installed` in the mason-tool-installer config in `lua/jj/plugins/lsp.lua`
+2. Add the server name to the `vim.lsp.enable` list in `lua/jj/plugins/blink-cmp.lua`
+3. Add the Mason package name to `ensure_installed` in `lua/jj/plugins/mason.lua`
 
 ## Key Bindings to Know
 
-Leader is `<Space>`. Keymaps are defined across `plugin/options.lua` (general), `lua/jj/plugins/lsp.lua` (LSP-attach), `lua/jj/plugins/telescope.lua` (search), and `lua/jj/plugins/debug.lua` (DAP). The pattern is `<leader>` + mnemonic: `sf` = Search Files, `sg` = Search Grep, `ca` = Code Action, `f` = Format, `o` = Oil file explorer.
+Leader is `<Space>`. Keymaps are defined across `plugin/options.lua` (general), `lua/jj/plugins/blink-cmp.lua` (LSP-attach), `lua/jj/plugins/telescope.lua` (search), and `lua/jj/plugins/debug.lua` (DAP). The pattern is `<leader>` + mnemonic: `sf` = Search Files, `sg` = Search Grep, `ca` = Code Action, `f` = Format, `o` = Oil file explorer.
