@@ -4,16 +4,16 @@ return {
   root_markers = { '.git' },
   settings = {
     yaml = {
-      format = {
-        enable = true,
-        singleQuote = true,
-      },
-      schemastore = {
+      validate = true,
+      hover = true,
+      completion = true,
+schemastore = {
         enable = true,
       },
       schemas = {
         ['https://json.schemastore.org/github-workflow'] = '.github/workflows/*.{yml,yaml}',
         ['https://json.schemastore.org/github-action'] = '.github/action/*.{yml,yaml}',
+        ['values.schema.json'] = 'values.yaml',
       },
     },
   },
